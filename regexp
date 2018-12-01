@@ -1,0 +1,8 @@
+# degrees, minutes, seconds
+[NSWE]?([\d]{1,3})°?,?[\s]?([\d]{1,2})'?,?[\s]?([\d]{1,2}\.[\d]+)"?[NSWE]?
+
+# degrees, minutes
+[NSWE]?[\d]{1,3}°?,?[\s]?[\d]{1,2}\.[\d]+'?[NSWE]?
+
+# degrees
+[NSWE]?[\d]{1,3}[\d]+°?[NSWE]?
