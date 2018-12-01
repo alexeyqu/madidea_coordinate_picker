@@ -24,8 +24,14 @@ def main():
 def coordinates():
     data = request.form
     logging.debug(data)
-    #TODO(alexeyqu): extract coordinates from text
-    return jsonify({})
+    if 'text' not in data:
+        logging.error('no `text` field in form!')
+        return jsonify({})
+    else:
+        text = data['text']
+        logging.debug(text)
+        #TODO(alexeyqu): extract coordinates from text
+        return jsonify({})
 
 
 try:
