@@ -5,6 +5,7 @@ from urllib.parse import urlencode
 import json
 import locale
 import logging
+import geocoder
 
 
 logging.basicConfig(level=logging.DEBUG,
@@ -30,8 +31,7 @@ def coordinates():
     else:
         text = data['text']
         logging.debug(text)
-        #TODO(alexeyqu): extract coordinates from text
-        return jsonify({})
+        return jsonify(geocoder.get_coords(text))
 
 
 try:
