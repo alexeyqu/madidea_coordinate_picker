@@ -100,14 +100,14 @@
           var text = ''
           var lastCoord = 0;
           for (var i = 0; i < labels.length; ++i) {
-            text += origText.substr(lastCoord, labels[i].text_start - lastCoord).replace('\n', '<br/>');
+            text += origText.substr(lastCoord, labels[i].text_start - lastCoord).replace(/\n/g, '<br/>');
             text += '<span data-lat="' + labels[i].lat + '" data-lon="' + labels[i].lon
               + '" class="coords" style="background-color:LightSalmon;">' // TODO: css for style
-              + origText.substr(labels[i].text_start, labels[i].text_finish - labels[i].text_start).replace('\n', '<br/>')
+              + origText.substr(labels[i].text_start, labels[i].text_finish - labels[i].text_start).replace(/\n/g, '<br/>')
               + '</span>';
             lastCoord = labels[i].text_finish;
           }
-          text += origText.substr(lastCoord).replace('\n', '<br/>');
+          text += origText.substr(lastCoord).replace(/\n/g, '<br/>');
           $('#tagged-text').html(text);
         };
         
