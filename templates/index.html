@@ -30,7 +30,8 @@
                       <button type="submit" class="btn btn-success">Analyze</button>
                     </div>
                   </form>
-              </div>
+                  <div 
+              <div id="tagged-text"></div>
               <div class="col-md-6">
                 <div id="map1" class="row">
                 
@@ -43,10 +44,78 @@
         </div>
 
       <script type="text/javascript">
-        var platform = new H.service.Platform({
+        /*var platform = new H.service.Platform({
           app_id: "{{ app_id }}",
           app_code: "{{ app_code }}",
+        });*/
+        
+        var getMapImgUrl = function(lat, lng) {
+          return 'https://image.maps.api.here.com/mia/1.6/mapview?app_id={{ app_id }}&app_code={{ app_code }}' +
+            '&c=' + lat + ',' + lng + '&h=300&w=400&r=300&i';
+        };
+        
+        var getMapHref = function(lat, lng) {
+          return 'https://wego.here.com/location/?map=' + lat + ',' + lng + ',15'
+        };
+        
+        var getMapImgElement = function(lat, lng) {
+          console.log('req for ' + lat + ';' + lng);
+          return '<a target="_blank" rel="noopener noreferrer" href="' + getMapHref(lat, lng) + '">'
+            + '<img src="' + getMapImgUrl(lat, lng) + '"/></a>';
+        };
+        
+        var drawTaggedText = function(labels) {
+          var origText = $('#text').val();
+          var text = ''
+          var lastCoord = 0;
+          for (var i = 0; i < labels.length; ++i) {
+            text += origText.substr(lastCoord, labels[i].text_start - lastCoord);
+            text += '<span data-lat="' + labels[i].lat + '" data-lon="' + labels[i].lon
+              + '" class="coords" style="background-color:red;">' // TODO: css for style
+              + origText.substr(labels[i].text_start, labels[i].text_finish - labels[i].text_start) + '</span>';
+            lastCoord = labels[i].text_finish;
+          }
+          text += origText.substr(lastCoord);
+          $('#tagged-text').html(text);
+        };
+        
+        var attachHover = function() {
+          $('.coords').hover(function(e) {
+            e.preventDefault();
+            console.dir(e);
+            if (e.type == 'mouseenter') {
+              console.log('hovered in!');
+              var lat = $(e.target).data('lat');
+              var lng = $(e.target).data('lon');
+              $('#map1').html(getMapImgElement(lat, lng));
+              $('#map2').html(getMapImgElement(lng, lat));
+            }
+            else if (e.type == 'mouseleave') {
+              console.log('hovered out!');
+              //$('#map1').empty();
+              //$('#map2').empty();
+            }
+            else {
+              console.warn('WRONG HOVER EVENT');
+              console.dir(e.type);
+            }
+          });
+        };
+        
+        
+        $('#text-form').submit(function(e) {
+          e.preventDefault();
+          $.ajax({
+              url:'/coordinates',
+              type:'post',
+              data: $('#text-form').serialize(),
+              success: function(labels) {
+                drawTaggedText(labels);
+                attachHover();
+              }
+          });
         });
+        
       </script>
 
     </body>
