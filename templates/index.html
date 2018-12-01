@@ -6,14 +6,14 @@
         <meta name="viewport" content="initial-scale=1.0, width=device-width">
 
         <link rel="stylesheet" href={{ url_for("static", filename="css/app.css") }}>
-        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
         <link rel="stylesheet" type="text/css" href={{ url_for("static", filename="css/bootstrap.min.css") }}/>
         
+        <!--link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-pano.js"></script>
-        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script-->
         <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src={{ url_for("static", filename="js/bootstrap.min.js") }}></script>
     </head>
@@ -52,9 +52,13 @@
             </div>
           </div>
           <div class="col-md-5" style="text-align: center">
-            <div id="map1" class="row"></div>
+            <div id="map1" class="row">
+              <img src="/static/img/here.png" height="250"/>
+            </div>
             <hr>
-            <div id="map2" class="row"></div>
+            <div id="map2" class="row">
+              <img src="/static/img/there.png" height="250"/>
+            </div>
           </div>
 
           <div class="col-md-1" style="text-align: center"></div>
@@ -76,7 +80,7 @@
         
         var getMapImgUrl = function(lat, lng) {
           return 'https://image.maps.api.here.com/mia/1.6/mapview?app_id={{ app_id }}&app_code={{ app_code }}' +
-            '&c=' + lat + ',' + lng + '&h=300&w=400&r=300&i';
+            '&c=' + lat + ',' + lng + '&h=250&w=400&r=300&i';
         };
         
         var getMapHref = function(lat, lng) {
@@ -91,39 +95,29 @@
         
         var drawTaggedText = function(labels) {
           var origText = $('#text').val();
+          var cont = $('#tagged-text');
+          console.log(origText);
           var text = ''
           var lastCoord = 0;
           for (var i = 0; i < labels.length; ++i) {
-            text += origText.substr(lastCoord, labels[i].text_start - lastCoord);
+            text += origText.substr(lastCoord, labels[i].text_start - lastCoord).replace('\n', '<br/>');
             text += '<span data-lat="' + labels[i].lat + '" data-lon="' + labels[i].lon
-              + '" class="coords" style="background-color:red;">' // TODO: css for style
-              + origText.substr(labels[i].text_start, labels[i].text_finish - labels[i].text_start) + '</span>';
+              + '" class="coords" style="background-color:LightSalmon;">' // TODO: css for style
+              + origText.substr(labels[i].text_start, labels[i].text_finish - labels[i].text_start).replace('\n', '<br/>')
+              + '</span>';
             lastCoord = labels[i].text_finish;
           }
-          text += origText.substr(lastCoord);
+          text += origText.substr(lastCoord).replace('\n', '<br/>');
           $('#tagged-text').html(text);
         };
         
         var attachHover = function() {
-          $('.coords').hover(function(e) {
+          $('.coords').click(function(e) {
             e.preventDefault();
-            console.dir(e);
-            if (e.type == 'mouseenter') {
-              console.log('hovered in!');
-              var lat = $(e.target).data('lat');
-              var lng = $(e.target).data('lon');
-              $('#map1').html(getMapImgElement(lat, lng));
-              $('#map2').html(getMapImgElement(lng, lat));
-            }
-            else if (e.type == 'mouseleave') {
-              console.log('hovered out!');
-              //$('#map1').empty();
-              //$('#map2').empty();
-            }
-            else {
-              console.warn('WRONG HOVER EVENT');
-              console.dir(e.type);
-            }
+            var lat = $(e.target).data('lat');
+            var lng = $(e.target).data('lon');
+            $('#map1').html(getMapImgElement(lat, lng));
+            $('#map2').html(getMapImgElement(lng, lat));
           });
         };
         

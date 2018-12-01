@@ -1,14 +1,16 @@
 import re
 
 regexes = [
-	(r'((-?[\d]+)(,|.)([\d]+))(,|;| )((-?[\d]+)(,|.)([\d]+))', 1, 6)
+	(r'((-?[\d]+)(,|.)([\d]+))\s*(,|;)?\s*((-?[\d]+)(,|.)([\d]+))', 1, 6)
 ]
 
 def get_coords(text):
+	text = text.replace('\r', '')
 	print(text)
 	data = []
 	for regex, group_1, group_2 in regexes:
-		for match in re.finditer(regex, text):
+		seq = re.compile(regex, re.MULTILINE)
+		for match in re.finditer(seq, text):
 			span = {}
 			text_start, text_finish = match.span()
 			span['text_start'] = text_start
