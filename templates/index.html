@@ -5,8 +5,10 @@
         <title>Find the coordinates</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width">
 
+        <link rel="stylesheet" href={{ url_for("static", filename="css/app.css") }}>
         <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
         <link rel="stylesheet" type="text/css" href={{ url_for("static", filename="css/bootstrap.min.css") }}/>
+        
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
@@ -14,33 +16,59 @@
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
         <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src={{ url_for("static", filename="js/bootstrap.min.js") }}></script>
-
-        <!--link rel="stylesheet" href={{ url_for("static", filename="css/app.css") }}-->
     </head>
 
     <body>
+      <main role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container" style="text-align: center">
+          <h1 class="promo-text">Coordinates. Here and there...</h1>
+          <!--h4 class="promo-text">This is some inspiring blah-blah</h4>
+          <button class="btn btn-outline-light btn-lg" type="button" data-toggle="collapse" data-target="#more-info" aria-expanded="false" aria-controls="more-info">
+            Learn more &raquo;
+          </button>
+          <div id="more-info" class="collapse">
+            <div class="card card-body" style="margin-top: 30px">
+              <h4 class="promo-text">Lorem ipsum dolor text....</h4>
+            </div>
+          </div-->
+        </div>
+      </div>
+
       <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
-        <div class="container" style="width: 0.9" align="center">
-          <div class="row mar-bot40">
-              <div class="col-md-6" align="center">
+      <div class="container container-fluid">
+        <div class="row" style="margin-top: 60px">
+          <div class="col-md-1" style="text-align: center"></div>
+          <div class="col-md-5" style="text-align: center">
+            <div class="card text-black bg-light mb-3">
+              <h4 class="card-header">Your text HERE:</h4>
                   <form action="/coordinates" method="post" id="text-form" target="dummyframe">
                     <div class="form-group">
-                      <label for="text">Your text HERE:</label>
                       <textarea class="form-control" id="text" name="text" cols="40" rows="5"></textarea>
-                      <button type="submit" class="btn btn-success">Analyze</button>
+                      <br><button type="submit" class="btn btn-success">Analyze</button>
                     </div>
                   </form>
-              </div>
-              <div class="col-md-6">
-                <div id="map1" class="row">
-                
-                </div>
-                <div id="map2" class="row">
-                    
-                </div>
-              </div>
+            </div>
           </div>
-        </div>
+
+          <div class="col-md-5" style="text-align: center">
+            <div id="map1" class="row"></div>
+            <div id="map2" class="row"></div>
+          </div>
+
+          <div class="col-md-1" style="text-align: center"></div>
+       </div>
+    </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <h4 class="promo-text">&copy; MadIdea Tech, 2018</h4>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-slim.min.js"><\/script>')</script>
 
       <script type="text/javascript">
         var platform = new H.service.Platform({
