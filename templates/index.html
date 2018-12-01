@@ -1,0 +1,49 @@
+<!doctype html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Find the coordinates</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width">
+
+        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-pano.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href={{ url_for("static", filename="css/app.css") }}>
+    </head>
+
+    <body>
+      <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+      <section>
+        <div class="container" align="center">
+          <div class="row mar-bot40">
+            <div class="align-center" style="margin-top: 30px; margin-bottom:25px;">
+              <div class="row">
+                  <form action="/coordinates" method="post" id="text-form" target="dummyframe">
+                      <label>
+                        <span>Your text HERE:</span><br>
+                        <textarea id="text" name="text" cols="40" rows="5"></textarea>
+                      </label><br>
+                    <input type="submit" value="Analyze">
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script type="text/javascript">
+        var platform = new H.service.Platform({
+          app_id: "{{ app_id }}",
+          app_code: "{{ app_code }}",
+        });
+      </script>
+
+      <script src={{ url_for("static", filename="js/bootstrap.min.js") }}></script>
+
+    </body>
+</html>
